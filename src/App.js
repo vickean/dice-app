@@ -48,14 +48,15 @@ class App extends Component {
   }
 
   handleRollHist(dice) {
-    dice.forEach(e => {
+    let diceUpdate = dice.map(e => {
       let rollHist = [e.rollValue, ...e.rollHist];
       if (rollHist.length > 5) {
         rollHist.splice(5, 1);
       }
       e.rollHist = rollHist;
+      return e;
     });
-    this.setState({ dice });
+    this.setState({ dice: diceUpdate });
   }
 }
 
