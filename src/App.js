@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./App.css";
 import RollButton from "./components/rollButton";
-import Dice from "./components/dice";
+import DiceBox from "./components/diceBox";
 
 class App extends Component {
   state = {
@@ -24,7 +24,7 @@ class App extends Component {
             this.handleDiceRoll(this.state.dice);
           }}
         />
-        <Dice id="1" rollValue={this.state.dice[0].rollValue} />
+        <DiceBox dice={this.state.dice} />
       </React.Fragment>
     );
   }
