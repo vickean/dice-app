@@ -3,6 +3,8 @@ import "./App.css";
 import RollButton from "./components/rollButton";
 import DiceBox from "./components/diceBox";
 
+// dice types: D4, D6, D8, D10, D12, D20, Percentile
+
 class App extends Component {
   state = {
     dice: [
@@ -10,7 +12,14 @@ class App extends Component {
         id: 1,
         minValue: 1,
         maxValue: 6,
-        rollValue: 7,
+        rollValue: 0,
+        rollHist: [0, 0, 0, 0, 0]
+      },
+      {
+        id: 2,
+        minValue: 1,
+        maxValue: 9,
+        rollValue: 0,
         rollHist: [0, 0, 0, 0, 0]
       }
     ]
@@ -22,6 +31,7 @@ class App extends Component {
         <RollButton
           onDiceRoll={() => {
             this.handleDiceRoll(this.state.dice);
+            this.handleRollHist(this.state.dice);
           }}
         />
         <DiceBox dice={this.state.dice} />
@@ -30,20 +40,22 @@ class App extends Component {
   }
 
   handleDiceRoll(dice) {
-    const diceIndex = dice.findIndex(x => x.id === 1);
-    const rollValue = Math.floor(
-      Math.random() * dice[diceIndex].maxValue + dice[diceIndex].minValue
-    );
-    dice[diceIndex].rollValue = rollValue;
+    dice.forEach(e => {
+      const rollValue = Math.floor(Math.random() * e.maxValue + e.minValue);
+      e.rollValue = rollValue;
+    });
     this.setState({ dice });
   }
 
-  editRollHist() {
-    let rollHist = [this.state.rollValue, ...this.state.rollHist];
-    if (rollHist.length > 5) {
-      rollHist.splice(5, 1);
-    }
-    this.setState({ rollHist });
+  handleRollHist(dice) {
+    dice.forEach(e => {
+      let rollHist = [e.rollValue, ...e.rollHist];
+      if (rollHist.length > 5) {
+        rollHist.splice(5, 1);
+      }
+      e.rollHist = rollHist;
+    });
+    this.setState({ dice });
   }
 }
 
